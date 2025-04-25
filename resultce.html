@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Quiz</title>
+    <style>
+        body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #e72c7a 0%, #f700ff 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    text-align: center;
+    overflow-y: scroll; /* Memungkinkan scrolling vertikal */
+}
+
+.result-container {
+    padding: 40px;
+    width: 90%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.2); /* Transparansi */
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(15px); /* Efek blur latar belakang */
+    animation: fadeIn 1s ease-out;
+}
+
+
+        .score {
+            font-size: 72px;
+            font-weight: bold;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #ff5aac 0%, #ff66cc 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .result-message {
+            font-size: 24px;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.4); /* Transparansi */
+        }
+
+        .femboy {
+            color: #ff66b2;
+            border: 2px dashed #ff80bf;
+        }
+
+        .normal {
+            color: #ff66cc;
+            border: 2px dashed #ff99cc;
+        }
+
+        .laki {
+            color: #ff3399;
+            border: 2px dashed #ff6699;
+        }
+
+        button {
+            background: #ff66b2;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+        }
+
+        .gif-container {
+            margin-top: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+            transition: transform 0.5s;
+        }
+
+        img:hover {
+            transform: scale(1.1);
+        }
+
+
+        /* Animasi fadeIn untuk elemen */
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .score {
+                font-size: 48px;
+            }
+            
+            .result-message {
+                font-size: 18px;
+            }
+            
+            button {
+                padding: 10px 25px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .result-container {
+                padding: 20px;
+            }
+
+            .score {
+                font-size: 36px;
+            }
+
+            .result-message {
+                font-size: 16px;
+            }
+
+            button {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>HASIL QUIZ KAMU</h1>
+        <div class="score" id="scoreDisplay">0</div>
+        
+        <div class="result-message" id="resultMessage">
+            Tunggu sebentar...
+        </div>
+
+        <div class="gif-container" id="gifContainer"></div>
+        
+        <button onclick="restartQuiz()">Main Lagi</button>
+    </div>
+    
+    <script>
+        // Ambil score dari localStorage
+        const score = parseInt(localStorage.getItem('genderScore')) || 0;
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const resultMessage = document.getElementById('resultMessage');
+        const gifContainer = document.getElementById('gifContainer');
+        
+        // Animasi counter score
+        let counter = 0;
+        const timer = setInterval(() => {
+            scoreDisplay.textContent = counter;
+            counter++;
+            if (counter > score) clearInterval(timer);
+        }, 30);
+        
+        // Set hasil berdasarkan score
+        setTimeout(() => {
+            if (score >= 70) {
+                resultMessage.innerHTML = "<b>KAMU TOMBOY BANGET !!</b><br>Kamu tomboy, keren";
+                resultMessage.className = "result-message femboy";
+                gifContainer.innerHTML = '<img src="image/tenor (6)" alt="Mikasa">';
+            } 
+            else if (score >= 40) {
+                resultMessage.innerHTML = "<b>LUMAYAN LAH...</b><br>Avarage normal girl";
+                resultMessage.className = "result-message normal";
+                gifContainer.innerHTML = '<img src="image/tenor (4).gif" alt="Momo">';
+            }
+            else {
+                resultMessage.innerHTML = "<b>CEWE BANGETT KAMU MAH</b><br>lucuk";
+                resultMessage.className = "result-message laki";
+                gifContainer.innerHTML = '<img src="image/tenor (5).gif" alt="Guts Gif">';
+            }
+        }, 1500);
+        
+        function restartQuiz() {
+            localStorage.removeItem('genderScore');
+            window.location.href = "/zipzap/index.html";
+        }
+    </script>
+</body>
+</html>
